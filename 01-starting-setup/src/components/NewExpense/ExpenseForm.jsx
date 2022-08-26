@@ -25,7 +25,7 @@ const ExpenseForm = ({onSaveExpenseData, onCancel}) => {
 		// })
 	};
 	const changeAmountHandler = (e) => {
-		setAmount(e.target.value);
+		setAmount(+e.target.value);
 		// setUserInput({
 		//     ...userInput,
 		//     amount: e.target.value
