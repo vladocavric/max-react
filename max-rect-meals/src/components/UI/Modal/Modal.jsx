@@ -5,16 +5,17 @@ const Modal = (props) => {
 	return (
 		<>
 			{ReactDOM.createPortal(
-				<div className={classes.backdrop} onClick={props.onConfirm} />,
+				<div className={classes.backdrop} onClick={props.onClose} />,
 				document.getElementById('backdrop-root')
 			)}
 			{ReactDOM.createPortal(
-				<div className={`${classes.modal} ${props.className}`}>
-					<div className={classes.content}>
-					{props.children}
-					</div>
+				<div
+					className={`${classes.modal} ${
+						props.size === 'large' && classes.large
+					}`}>
+					<div className={classes.content}>{props.children}</div>
 				</div>,
-				document.getElementById('modal-root')
+				document.getElementById('backdrop-root')
 			)}
 		</>
 	);
