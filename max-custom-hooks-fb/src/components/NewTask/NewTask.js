@@ -7,12 +7,12 @@ import TaskForm from './TaskForm';
 const NewTask = (props) => {
 	const { isLoading, error, sendRequest: sendTaskRequest } = useHttp();
 
-  const handleData = (taskText, data) => {
-    const generatedId = data.name; // firebase-specific => "name" contains generated id
-    const createdTask = { id: generatedId, text: taskText };
+	const handleData = (taskText, data) => {
+		const generatedId = data.name; // firebase-specific => "name" contains generated id
+		const createdTask = { id: generatedId, text: taskText };
 
-    props.onAddTask(createdTask);
-  };
+		props.onAddTask(createdTask);
+	};
 	const enterTaskHandler = (taskText) => {
 		// const handleData = (data) => {
 		// 	const generatedId = data.name; // firebase-specific => "name" contains generated id

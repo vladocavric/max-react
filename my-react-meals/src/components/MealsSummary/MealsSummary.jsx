@@ -1,4 +1,5 @@
 import classes from './MealsSummary.module.scss';
+import {Link} from "react-router-dom";
 
 const MealsSummary = () => {
 	return (
@@ -12,6 +13,7 @@ const MealsSummary = () => {
 				All our meals are cooked with high-quality ingredients,
 				just-in-time and of course by experienced chefs!
 			</p>
+			<Link className='btn btn-red' to="/meals/new" >Create new Meal</Link>
 		</section>
 	);
 };

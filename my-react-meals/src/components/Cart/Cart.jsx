@@ -1,29 +1,39 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
+import useHttp from '../../hooks/use-http';
 import Modal from '../UI/Modal/Modal';
+import Loader from '../UI/Loader/Loader';
 import styles from './Cart.module.scss';
 import OrderContext from '../../store/order-context';
 import CartItem from './CartItem';
 
 const Cart = ({ toggleCart }) => {
+	const [orderNo, setOrderNo] = useState('')
 	const { orderItems, total } = useContext(OrderContext);
-	// const [showModal, setShowModal] = useState(false);
-	// const modalToggleHandler = () => {
-	// 	setShowModal(!showModal);
-	// };
-	const handleSubmit = () => {
-		console.log('ordering...');
+	const {isLoading, sendRequest: sendOrder } = useHttp();
+
+	const handleSubmit = (e) => {
+		e.preventDefault()
+		sendOrder({
+			url: 'https://max-react-8c77c-default-rtdb.firebaseio.com/orders.json',
+			method: 'POST',
+			body: { total, items: orderItems },
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		}, data => setOrderNo(data.name));
+
 	};
 
 	return (
 		<>
 			<Modal
 				className={`${styles.Cart}`}
-				// message={'error.message'}
 				onConfirm={toggleCart}
-				// btnConfirmLabel={'Cancel'}
-				// onSubmit={handleSubmit}
-				// onSubmitLabel='Order'
-			>
+				>
+					{isLoading && <Loader />}
+					{orderNo && <h1>your order number is: {orderNo}</h1>}
+				{!isLoading && !orderNo &&
+				<form onSubmit={handleSubmit}>
 				{orderItems.map((meal) => {
 					return (
 						<CartItem
@@ -45,10 +55,12 @@ const Cart = ({ toggleCart }) => {
 					<button className='btn btn-white' onClick={toggleCart}>
 						Close
 					</button>
-					{!!orderItems.length && <button className='btn btn-red' onClick={handleSubmit}>
+					{!!orderItems.length && <button className='btn btn-red'>
 						Order
 					</button>}
 				</footer>
+				</form>
+			}
 			</Modal>
 		</>
 	);

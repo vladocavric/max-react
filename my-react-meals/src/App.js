@@ -1,12 +1,17 @@
-import Header from './components/Header/Header';
-import Meals from './components/Meals/Meals';
-import MealsSummary from './components/MealsSummary/MealsSummary';
+import {BrowserRouter as Router,Route, Routes} from "react-router-dom";
+import Home from "./components/Home/Home";
+import NewMeal from "./components/NewMeal/NewMeal";
 function App() {
 	return (
 		<div>
-			<Header />
-			<MealsSummary />
-			<Meals />
+			
+			{/* <button className='btn btn-red'>Create</button> */}
+			<Router>
+			<Routes>
+				<Route path='/'element={<Home />} />
+				<Route path='meals/new'element={<NewMeal />} />
+			</Routes>
+			</Router>
 		</div>
 	);
 }

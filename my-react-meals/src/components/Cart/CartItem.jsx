@@ -4,7 +4,7 @@ import classes from './CartItem.module.scss';
 
 const CartItem = (props) => {
 	const { onAdd, onRemove } = useContext(OrderContext);
-	const price = `$${props.price.toFixed(2)}`;
+	const price = `$${parseFloat(props.price).toFixed(2)}`;
 
 	const handleOnAdd = () => {
 		onAdd(props.id)

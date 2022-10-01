@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import useHttp from '../hooks/use-http';
 
-import DummyMeals from '../dummy-meals';
+// import DummyMeals from '../dummy-meals';
 
 const OrderContext = React.createContext({
 	orderItems: [],
@@ -15,6 +16,27 @@ export const OrderContextProvider = (props) => {
 	const [orderItems, setOrderItems] = useState([]);
 	const [orderItemsAmount, setOrderItemsAmount] = useState(0);
 	const [total, setTotal] = useState(0);
+	const [meals, setMeals] = useState([])
+	const {isLoading, error, sendRequest: getMealsRequest } = useHttp();
+
+	useEffect(() => {
+		const convertData = (data) => {
+			const loadedMeals = [];
+
+			for (const mealKey in data) {
+				loadedMeals.push({ id: mealKey, ...data[mealKey] });
+			}
+
+			setMeals(loadedMeals);
+		};
+
+		getMealsRequest(
+			{
+				url: 'https://max-react-8c77c-default-rtdb.firebaseio.com/meals.json',
+			},
+			convertData
+		)
+	}, [getMealsRequest])
 
 	useEffect(() => {
 		const amountArr = orderItems.map(meal => meal.amount)
@@ -51,7 +73,7 @@ export const OrderContextProvider = (props) => {
 		if (itemIndx >= 0) {
 			changeAmount(id, amount)			
 		} else {
-			const mealToAdd = DummyMeals.find(meal => meal.id === id)
+			const mealToAdd = meals.find(meal => meal.id === id)
 			setOrderItems(prevState => ([...prevState, {...mealToAdd, amount}]))
 		}
 	};
@@ -67,6 +89,9 @@ export const OrderContextProvider = (props) => {
 	return (
 		<OrderContext.Provider
 			value={{
+				meals,
+				isLoading, 
+				error,
 				orderItems,
 				orderItemsAmount,
 				total,
