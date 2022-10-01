@@ -5,7 +5,7 @@ import classes from './MealItem.module.scss';
 
 const MealItem = (props) => {
 	const { addItem } = useContext(CartContext);
-	const price = `$${props.price.toFixed(2)}`;
+	const price = `$${parseFloat(props.price).toFixed(2)}`;
 	const addToCartHandler = (amount) => {
 		addItem({
 			id: props.id,
