@@ -1,47 +1,74 @@
+import { useState } from 'react';
+import { Prompt } from 'react-router-dom';
 import { useRef } from 'react';
 
-import Card from '../ui/Card';
-import LoadingSpinner from '../ui/LoadingSpinner';
+import Card from '../UI/Card';
+import LoadingSpinner from '../UI/LoadingSpinner';
 import classes from './QuoteForm.module.css';
 
 const QuoteForm = (props) => {
-  const authorInputRef = useRef();
-  const textInputRef = useRef();
+	const [isEntered, setIsEntered] = useState(false);
+	const authorInputRef = useRef();
+	const textInputRef = useRef();
 
-  function submitFormHandler(event) {
-    event.preventDefault();
+	const onClickHandler = () => {
+    setIsEntered(false)
+  };
 
-    const enteredAuthor = authorInputRef.current.value;
-    const enteredText = textInputRef.current.value;
+	function submitFormHandler(event) {
+		event.preventDefault();
 
-    // optional: Could validate here
+		const enteredAuthor = authorInputRef.current.value;
+		const enteredText = textInputRef.current.value;
 
-    props.onAddQuote({ author: enteredAuthor, text: enteredText });
-  }
+		// optional: Could validate here
 
-  return (
-    <Card>
-      <form className={classes.form} onSubmit={submitFormHandler}>
-        {props.isLoading && (
-          <div className={classes.loading}>
-            <LoadingSpinner />
-          </div>
-        )}
+		props.onAddQuote({ author: enteredAuthor, text: enteredText });
+	}
 
-        <div className={classes.control}>
-          <label htmlFor='author'>Author</label>
-          <input type='text' id='author' ref={authorInputRef} />
-        </div>
-        <div className={classes.control}>
-          <label htmlFor='text'>Text</label>
-          <textarea id='text' rows='5' ref={textInputRef}></textarea>
-        </div>
-        <div className={classes.actions}>
-          <button className='btn'>Add Quote</button>
-        </div>
-      </form>
-    </Card>
-  );
+	const onFocusHandler = () => {
+		setIsEntered(true);
+	};
+
+	return (
+		<>
+			<Prompt
+				when={isEntered}
+				message={(location) =>
+					'Are you sore that you want to leave, you will lost all your data'
+				}
+			/>
+			<Card>
+				<form
+					onFocus={onFocusHandler}
+					className={classes.form}
+					onSubmit={submitFormHandler}>
+					{props.isLoading && (
+						<div className={classes.loading}>
+							<LoadingSpinner />
+						</div>
+					)}
+
+					<div className={classes.control}>
+						<label htmlFor='author'>Author</label>
+						<input type='text' id='author' ref={authorInputRef} />
+					</div>
+					<div className={classes.control}>
+						<label htmlFor='text'>Text</label>
+						<textarea
+							id='text'
+							rows='5'
+							ref={textInputRef}></textarea>
+					</div>
+					<div className={classes.actions}>
+						<button className='btn' onClick={onClickHandler}>
+							Add Quote
+						</button>
+					</div>
+				</form>
+			</Card>
+		</>
+	);
 };
 
 export default QuoteForm;
