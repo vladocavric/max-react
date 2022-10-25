@@ -43,6 +43,10 @@
   align-items: center;
 }
 
+.actions p {
+  color: white;
+}
+
 .actions button {
   cursor: pointer;
   font: inherit;
