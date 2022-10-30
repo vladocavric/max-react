@@ -14,13 +14,44 @@
 }
 
 .ModalOpened {
-    /* display: block; */
-    opacity: 1;
-    transform: translateY(0);
+    animation: openModal 0.5s ease forwards;
 }
 
 .ModalClosed {
-    /* display: none; */
-    opacity: 0;
-    transform: translateY(-100%);
+    animation: closeModal 1s ease forwards;
+}
+
+.fade-enter {}
+.fade-enter-active {animation: openModal 0.5s ease forwards;}
+.fade-exit {}
+.fade-exit-active {animation: closeModal 1s ease forwards;}
+
+
+@keyframes openModal {
+    0% {
+        opacity: 0;
+        transform: translateY(-100%);
+    }
+    50% {
+        opacity: 1;
+        transform: translateY(20%);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+}@keyframes closeModal {
+    0% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    50% {
+        opacity: 1;
+        transform: translateY(20%);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-100%);
+    }
 }

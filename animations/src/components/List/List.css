@@ -14,9 +14,19 @@
     background-color: white;
     text-align: center;
     cursor: pointer;
+    transition: transform 0.3s
 }
 
 .ListItem:hover,
 .ListItem:active {
     background-color: #ccc;
 }
+
+.slide-enter {
+    transform: translateX(-20%);
+}
+.slide-enter-active {
+    transform: translateX(0);
+}
+.slide-exit {transform: translateX(0);}
+.slide-exit-active {transform: translateX(20%);}
