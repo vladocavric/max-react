@@ -35,6 +35,7 @@ const productReducer = (state = initialState, action) => {
       const prodIndex = state.products.findIndex(
         p => p.id === action.productId
       );
+      
       const newFavStatus = !state.products[prodIndex].isFavorite;
       const updatedProducts = [...state.products];
       updatedProducts[prodIndex] = {
